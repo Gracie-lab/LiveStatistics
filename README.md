@@ -1,6 +1,6 @@
 # LiveStatistics
 
-This project records transaction statistics and provides and
+This project records transaction statistics and provides an
 api that returns the statistics report for the last 60 seconds.
 
 This is a springboot project containerized using docker.
