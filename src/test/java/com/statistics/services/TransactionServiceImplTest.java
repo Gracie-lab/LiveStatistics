@@ -33,9 +33,8 @@ class TransactionServiceImplTest {
         request.setTimeStamp("2016-07-13T18:08:50.118Z");
         log.info("Request is null : " + request.getTimeStamp());
         transactionService.MakeTransaction(request);
-        assertEquals(1, transaction.getCount());
-        transactionService.MakeTransaction(request);
-        assertEquals(2, transaction.getCount());
+        assertEquals(3, transaction.getCount());
+
     }
 
     @Test
@@ -63,6 +62,7 @@ class TransactionServiceImplTest {
         log.info("Sum is : "  + transaction.getSum());
         var response =transactionService.GetStatistics();
         log.info("Response ==> {}", response);
+        assertNotNull(response);
 
     }
 
@@ -75,6 +75,13 @@ class TransactionServiceImplTest {
     @Test
     @DisplayName("Test that delete resets all statistics to default")
     void testDeleteStatistics(){
-
+        var oldSum = transaction.getSum();
+        var request = new MakeTransactionRequest();
+        request.setAmount("50");
+        request.setTimeStamp("2016-07-13T18:08:50.118Z");
+        log.info("Request is null : " + request.getTimeStamp());
+        transactionService.MakeTransaction(request);
+        transactionService.deleteTransactions();
+        assertEquals(0, transaction.getCount());
     }
 }

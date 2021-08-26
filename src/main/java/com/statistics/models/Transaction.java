@@ -9,7 +9,11 @@ import java.time.LocalDateTime;
 @Data
 @Service
 public class Transaction {
-    private LocalDateTime startTimeStamp = LocalDateTime.MIN;
+    private Transaction(){
+
+    }
+
+    private LocalDateTime startTimeStamp = LocalDateTime.now();
 
     private BigDecimal sum = new BigDecimal(0);
     private BigDecimal avg = new BigDecimal(0);

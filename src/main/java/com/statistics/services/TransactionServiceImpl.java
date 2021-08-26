@@ -22,22 +22,22 @@ public class TransactionServiceImpl{
     Transaction transaction;
 
 
-    ModelMapper modelMapper = new ModelMapper();
-
     public boolean MakeTransaction(MakeTransactionRequest request) {
         LocalDateTime startTime = transaction.getStartTimeStamp();
         LocalDateTime parsedDate = LocalDateTime.parse(request.getTimeStamp(), DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
         log.info("Parsed date --> {}", parsedDate);
         BigDecimal amount = new BigDecimal(request.getAmount());
+        //get the chronological difference in seconds between existing time stamp and incoming time stamp
         long diff = ChronoUnit.SECONDS.between(startTime, parsedDate);
         boolean isDiffGreaterThan60 = false;
         log.info("The start time : " + startTime);
         if( diff > 60){
+            //reset time stamp
             transaction.setStartTimeStamp(parsedDate);
             diff = ChronoUnit.SECONDS.between(transaction.getStartTimeStamp(), parsedDate);
+            //reset statistics
             deleteTransactions();
             isDiffGreaterThan60 = true;
-            //reset other fields
         }
         log.info("Difference between parsed date and start date --> {}", diff);
 
